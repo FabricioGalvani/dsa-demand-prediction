@@ -9,12 +9,7 @@
 
 
 
-# 4. Building and validating models
+# 4. Building and validating models (orientated to the 5th phase)
 #     - Train and test a ML model
-#         I plan to use 3 algorithms:
-#           randomForest (from caret package)
-#           Boosted Tree (from caret package)
-#           autoML (from h2o package)
-#
-#     - Which performance metrics should I relly on?
-#       I'll relly on Accuracy
+#     - Which performance metrics should I rely on?
+#     - Iteration
