@@ -30,11 +30,11 @@
 if(!require(magrittr)) { install.packages("magrittr"); library(magrittr) }
 
 # Loading the svglite package (and installing it before, if not installed)
-# for ploting SVG files. More at: https://en.wikipedia.org/wiki/Scalable_Vector_Graphics
+# to plot SVG files. More at: https://en.wikipedia.org/wiki/Scalable_Vector_Graphics
 if(!require(svglite)) { install.packages("svglite"); library(svglite) }
 
 # Loading the GGally package (and installing it before, if not installed)
-# for ploting correlation heat maps and others extensions of ggplot2. 
+# to plot correlation heat maps and others extensions of ggplot2. 
 # More at: http://ggobi.github.io/ggally/#ggally
 if(!require(GGally)) { install.packages("GGally"); library(GGally) }
 
@@ -60,7 +60,8 @@ small_sample <- sample_frac(tbl = dataset,
 # write_csv(x = small_sample,
 #           path = "Data/small_sample.csv")
 
-
+# small_sample <- read_csv("small_sample.csv",
+#                          col_types = cols(.default = "d"))
 
 #_________________________________ Exploring _________________________________#
 
@@ -212,7 +213,12 @@ small_sample %>%
 
 
 # ploting a heat correlation map of the variables
-ggcorr(small_sample)
+# https://briatte.github.io/ggcorr/
+ggcorr(small_sample,
+       hjust = 0.75,
+       label = TRUE,
+       label_round = 3,
+       layout.exp = 1)
 
 
 # Saving the plot as a PNG and a SVG
@@ -232,22 +238,7 @@ ggsave(file = "Plots/ggcorr.png",
 
 #________________________________ Exploring Correlations ________________________________#
 
-# Variables that showed strong correlation, according to the previous plot
-
-# df <- tibble(col1 = c("Canal_ID", 
-#                       "Ruta_SAK", 
-#                       "Venta_uni_hoy", 
-#                       "Venta_uni_hoy", 
-#                       "Venta_hoy"), 
-#              col2 = c("Ruta_SAK",
-#                       "Producto_ID",
-#                       "Venta_hoy",
-#                       "Demanda_uni_equil",
-#                       "Demanda_uni_equil"))
-# 
-# for(i in 1:nrow(df)) { small_sample %$% cor(df[i,1], df[i,2]) }; rm(i, df)
-#
-# Since the above code doesn't work, lets try another way:
+# Variables that showed strong correlation (from train.csv)
 
 small_sample %$% cor(Canal_ID, Ruta_SAK)
 small_sample %$% cor(Ruta_SAK, Producto_ID)
@@ -670,6 +661,35 @@ ggsave(file = "Plots/ggpais_Venta_hoy_Demanda_uni_equil.png",
        units = "in")
 
 
+
+
+#________________________________ Correlation between test.csv variables ________________________________#
+
+
+# Correlation btwn the variables in the test.csv
+small_sample %>% 
+  select(Semana,
+         Agencia_ID,
+         Canal_ID,
+         Ruta_SAK,
+         Cliente_ID,
+         Producto_ID,
+         Demanda_uni_equil,
+         Venta_uni_hoy) %>% 
+  
+  #sample_frac(size = 0.01) %>% 
+  
+  mutate(sqrted_Canal_ID = sqrt(Canal_ID),
+         sqrted_Ruta_SAK = sqrt(Ruta_SAK)) %>% 
+  
+  ggcorr(label = TRUE, 
+         label_round = 3, 
+         hjust = 0.7)
+
+# I got a small improvment in the correlation between the square rooted variables and the target one 
+# (Demanda_uni_equil)
+
+
 #________________________________ Hypotheses test ________________________________#
 
 str(small_sample)
@@ -767,12 +787,5 @@ ggsave(file = "Plots/geom_bar_line_point_Comparison_Returned_Variety.png",
 # Things to consider when testing the 1st hipothesis
 # https://www.datacamp.com/community/tutorials/k-means-clustering-r
 # https://www.datanovia.com/en/blog/types-of-clustering-methods-overview-and-quick-start-r-code/
-
-
-
-
-
-
-
 
 
