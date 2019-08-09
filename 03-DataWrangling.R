@@ -668,33 +668,48 @@ ggsave(file = "Plots/ggpais_Venta_hoy_Demanda_uni_equil.png",
 
 # Correlation btwn the variables in the test.csv
 small_sample %>% 
-  select(Semana,
-         Agencia_ID,
+  
+  mutate(Canal_ID_sqrted = sqrt(Canal_ID),
+         Cliente_ID_sqrted = sqrt(Cliente_ID),
+         Ruta_SAK_sqrted = sqrt(Ruta_SAK)) %>%
+  
+  select(Canal_ID_sqrted,
+         Cliente_ID_sqrted,
+         Ruta_SAK_sqrted,
          Canal_ID,
+         Semana,
+         Agencia_ID,
          Ruta_SAK,
          Cliente_ID,
          Producto_ID,
-         Demanda_uni_equil,
+         #Demanda_uni_equil,
          Venta_uni_hoy) %>% 
   
-  #sample_frac(size = 0.01) %>% 
-  
-  mutate(sqrted_Canal_ID = sqrt(Canal_ID),
-         sqrted_Ruta_SAK = sqrt(Ruta_SAK)) %>% 
+  sample_frac(size = 0.01) %>% 
   
   ggcorr(label = TRUE, 
          label_round = 3, 
-         hjust = 0.7)
+         hjust = 0.75, layout.exp = 1)
 
-# I got a small improvment in the correlation between the square rooted variables and the target one 
+# I got a small improvment in the correlation between some square rooted variables and the target one 
 # (Demanda_uni_equil)
+
+# More about feature construction: 
+# https://machinelearningmastery.com/discover-feature-engineering-how-to-engineer-features-and-how-to-get-good-at-it/
+# https://medium.com/ml-research-lab/chapter-6-how-to-learn-feature-engineering-49f4246f0d41
+#
+# As the author of this article says: "The best results come down to you, the practitioner, crafting the features".
+# Is not an easy thing to do, but certainly it pays of the effort made on it.
+# Since I'm not good enough at it yet, I'll use the original features in the dataset.
+
+
 
 
 #________________________________ Hypotheses test ________________________________#
 
 str(small_sample)
 
-# - The hypotheses assumed were:
+# - The a priori hypotheses assumed were:
 #
 #     1 - Fitting predictive models to distinct groups of clients or products may be more accurate than to all
 #         clients or products as one single group.
