@@ -69,7 +69,7 @@
 # 1. Problem statement and comprehension of the context
 #     - What am I trying to solve?
 #         I should accurately forecast inventory demand based on historical sales data.
-#         Doing so will make sure consumers of over 100 bakery products aren’t staring at empty shelves, while
+#         I also should make sure consumers of over 100 bakery products aren’t staring at empty shelves, while
 #         also reducing the amount spent on refunds to store owners with surplus product unfit for sale.
 #
 #     - Who will benefit of/is asking for this solution?
