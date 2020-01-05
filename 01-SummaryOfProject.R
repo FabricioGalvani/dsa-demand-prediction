@@ -78,23 +78,23 @@
 #         All final consumers of Grupo Bimbo products.
 #
 #     - What would be the ideal scenario for them?
-#         Currently, daily inventory calculations are performed by direct delivery sales employees who must 
-#         single-handedly predict the forces of supply, demand, and hunger based on their personal experiences 
-#         with each store. With some breads carrying a one week shelf life, the acceptable margin for error 
+#         Currently, daily inventory calculations are performed by direct delivery sales employees who must
+#         single-handedly predict the forces of supply, demand, and hunger based on their personal experiences
+#         with each store. With some breads carrying a one week shelf life, the acceptable margin for error
 #         is small.
 #
-#         The ideal scenario to Grupo Bimbo would be: 
-#           To know beforehand and accurately what would be the demand for its products. 
-#           Doing so, be able to produce the necessary amount to support the demand, reducing waste, 
+#         The ideal scenario to Grupo Bimbo would be:
+#           To know beforehand and accurately what would be the demand for its products.
+#           Doing so, be able to produce the necessary amount to support the demand, reducing waste,
 #           warehousing costs, maximizing production efficiency, optimizing routes, and so on.
-#           See more at: 
+#           See more at:
 #           https://widgetbrain.com/demand-forecasting-retail/
 #           https://www.mckinsey.com/business-functions/operations/our-insights/supply-chain-analytics-harness-uncertainty-with-smarter-bets
 #
-#         The ideal scenario to resellers would be: 
+#         The ideal scenario to resellers would be:
 #           To have its demands supported on time; to have fresh products to offer
 #
-#         The ideal scenario to final consumers would be: 
+#         The ideal scenario to final consumers would be:
 #           To always have fresh and diversified bakery products on shelves.
 #
 #     - How could I use the available data to help them achieve this scenario?
@@ -103,7 +103,3 @@
 #     - Why solve this problem? (purpose)
 #         To help develop and strengthen a data-driven business culture.
 #
-
-
-
-

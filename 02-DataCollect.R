@@ -84,6 +84,7 @@
 # Loading the tidyverse packages (and installing them before, if not installed)
 # More about it on: https://www.tidyverse.org/
 if(!require(tidyverse)) { install.packages("tidyverse"); library(tidyverse) }
+# if(!require(data.table)) { install.packages("data.table"); library(data.table) }
 
 #___________________________________________________________________________________________________#
 #                                                                                                   #
@@ -98,3 +99,13 @@ if(!require(tidyverse)) { install.packages("tidyverse"); library(tidyverse) }
 # Loading the train dataset
 dataset <- read_csv("train.csv",
                     col_types = cols(.default = "d"))
+
+
+# dataset <- fread("train.csv", select = c("Demanda_uni_equil", 
+#                                          "Semana" ,
+#                                          "Agencia_ID" ,
+#                                          "Canal_ID" ,
+#                                          "Ruta_SAK" ,
+#                                          "Cliente_ID" ,
+#                                          "Producto_ID"))
+
