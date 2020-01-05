@@ -1,7 +1,7 @@
 # ---
 # script: 03-DataWrangling
 # subject: Exploring and Feature Engineering
-# date: 2019-08-03
+# date: 2020-01-05
 # author: Marcus Di Paula
 # github: github.com/marcusdipaula/
 # linkedin: linkedin.com/in/marcusdipaula/
@@ -203,7 +203,7 @@ small_sample %>%
   group_by(Canal_ID) %>% 
   summarise(units_sold = sum(Venta_uni_hoy)-sum(Dev_uni_proxima))
 
-# Interesting. We can see that the sales channel 9 have the smallest quantity of units sold, 
+# Interesting. We can see that the sales channel 9 have the smaller quantity of units sold, 
 # but none negative return. The sales channel 1 have the higher quantity of units sold, and
 # the higher number of negative returns.
 # The sales channel 2 and 4 are, respectively, the second and third places on quantity of units
@@ -370,8 +370,8 @@ comp_b <- small_sample %>%
 
 
 comp_ab <- inner_join(x = comp_a,
-           y = comp_b,
-           by = "Canal_ID"); rm(comp_a, comp_b)
+                      y = comp_b,
+                      by = "Canal_ID"); rm(comp_a, comp_b)
 
 # Feature engineering on variables to allow comparison
 comp_ab$Canal_ID %<>% as_factor()
@@ -709,6 +709,17 @@ small_sample %>%
 
 str(small_sample)
 
+# How much does a confidence interval comprehend? 90%? 95%? 99%? 
+# It depends on how many standard deviations (also called "critical value") this margin of error represents. 
+# 	* If +-1.96σ, its confidence interval comprehend 0.9500
+# 	* if +-2.58σ, its confidence interval comprehend 0.9902
+# 
+# 
+# confidence level: 1 - α
+# α = significance level (to the hypothesis test)
+# 
+
+
 # - The a priori hypotheses assumed were:
 #
 #     1 - Fitting predictive models to distinct groups of clients or products may be more accurate than to all
@@ -726,81 +737,80 @@ str(small_sample)
 # Lets test the 3rd hipothesis:
 
 
-# I'll choose the Agencia_ID variable since it represents regions, that can be retrieved from town_state.csv by
-# the Agencia_ID.
-
-length(unique(small_sample$Agencia_ID)) # 552
-
-# What is the linear correlation here?
-# Agencia_ID — Sales Storehouse ID
-# Producto_ID — Product ID
-small_sample %$% cor(Agencia_ID, Producto_ID) # we have a very small linear correlation btwn them
-
-
-# Getting the numbers grouped into a dataset
-comparison_a <- small_sample %>% 
-  select(Agencia_ID, Producto_ID, Dev_uni_proxima) %>% 
-  group_by(Agencia_ID) %>% 
-  summarise(unique_products = n_distinct(Producto_ID),
-            returned_units = sum(Dev_uni_proxima)) %>% 
-  arrange(desc(unique_products)); print(comparison_a) # Just these 10 lines shows us that the regions with higher
-                                                      # variety of products don't have the the higher returns of 
-                                                      # products. But lets print it to get a better view
-
-
-# Feature engineering
-# ordering rows by descending returned_units, then getting the top 10 rows
-comparison_a %<>% 
-  arrange(desc(returned_units)) %>% 
-  top_n(10)  
-# normalization of unique_products and returned_units, so we can compare them
-comparison_a$unique_products %<>%  clusterSim::data.Normalization(type = "n1")
-comparison_a$returned_units %<>%  clusterSim::data.Normalization(type = "n1")
-
-# Ploting
-comparison_a %>% 
-  
-  top_n(-8) %>% # I had to take out 2 lines because they are outliers
-  
-  ggplot(mapping = aes(x = reorder(as_factor(Agencia_ID), -returned_units^2) )) +
-  
-  geom_bar(mapping = aes(y = returned_units^2),
-           stat = "identity") +
-  
-  geom_line(mapping = aes(y = unique_products^2),
-            stat = "identity",
-            group = 1,
-            color = "blue",
-            alpha = 0.4,
-            size = 0.7) +
-  
-  geom_point(mapping = aes(y = unique_products^2),
-             stat = "identity") +
-  
-  labs(x = "Top 8 Sales Storehouses (ordered by sum of returned units)",
-       y = "Amount (normalized then squared)",
-       title = " Comparison between Returned units (bar) and Variety of products (line + points)")
-
-
-# This plot help us refute the null hiphotesis number 3, so we accept the contrary of it: the regions with higher
-# return of products are not the ones with higher variety of products.
-
-# Saving the plot as a PNG and a SVG
-ggsave(file = "Plots/geom_bar_line_point_Comparison_Returned_Variety.svg", 
-       plot = last_plot(), 
-       width = 11.25, 
-       height = 7.5,
-       units = "in")
-
-ggsave(file = "Plots/geom_bar_line_point_Comparison_Returned_Variety.png", 
-       plot = last_plot(), 
-       width = 7.5, 
-       height = 7.5,
-       units = "in")
-
-
-# Things to consider when testing the 1st hipothesis
-# https://www.datacamp.com/community/tutorials/k-means-clustering-r
-# https://www.datanovia.com/en/blog/types-of-clustering-methods-overview-and-quick-start-r-code/
-
+# # I'll choose the Agencia_ID variable since it represents regions, that can be retrieved from town_state.csv by
+# # the Agencia_ID.
+# 
+# length(unique(small_sample$Agencia_ID)) # 552
+# 
+# # What is the linear correlation here?
+# # Agencia_ID — Sales Storehouse ID
+# # Producto_ID — Product ID
+# small_sample %$% cor(Agencia_ID, Producto_ID) # we have a very small linear correlation btwn them
+# 
+# 
+# # Getting the numbers grouped into a dataset
+# comparison_a <- small_sample %>% 
+#   select(Agencia_ID, Producto_ID, Dev_uni_proxima) %>% 
+#   group_by(Agencia_ID) %>% 
+#   summarise(unique_products = n_distinct(Producto_ID),
+#             returned_units = sum(Dev_uni_proxima)) %>% 
+#   arrange(desc(unique_products)); print(comparison_a) # Just these 10 lines shows us that the regions with higher
+#                                                       # variety of products don't have the the higher returns of 
+#                                                       # products. But lets print it to get a better view
+# 
+# 
+# # Feature engineering
+# # ordering rows by descending returned_units, then getting the top 10 rows
+# comparison_a %<>% 
+#   arrange(desc(returned_units)) %>% 
+#   top_n(10)  
+# # normalization of unique_products and returned_units, so we can compare them
+# comparison_a$unique_products %<>%  clusterSim::data.Normalization(type = "n1")
+# comparison_a$returned_units %<>%  clusterSim::data.Normalization(type = "n1")
+# 
+# # Ploting
+# comparison_a %>% 
+#   
+#   top_n(-8) %>% # I had to take out 2 lines because they are outliers
+#   
+#   ggplot(mapping = aes(x = reorder(as_factor(Agencia_ID), -returned_units^2) )) +
+#   
+#   geom_bar(mapping = aes(y = returned_units^2),
+#            stat = "identity") +
+#   
+#   geom_line(mapping = aes(y = unique_products^2),
+#             stat = "identity",
+#             group = 1,
+#             color = "blue",
+#             alpha = 0.4,
+#             size = 0.7) +
+#   
+#   geom_point(mapping = aes(y = unique_products^2),
+#              stat = "identity") +
+#   
+#   labs(x = "Top 8 Sales Storehouses (ordered by sum of returned units)",
+#        y = "Amount (normalized then squared)",
+#        title = " Comparison between Returned units (bar) and Variety of products (line + points)")
+# 
+# 
+# # This plot help us refute the null hiphotesis number 3, so we accept the contrary of it: the regions with higher
+# # return of products are not the ones with higher variety of products.
+# 
+# # Saving the plot as a PNG and a SVG
+# ggsave(file = "Plots/geom_bar_line_point_Comparison_Returned_Variety.svg", 
+#        plot = last_plot(), 
+#        width = 11.25, 
+#        height = 7.5,
+#        units = "in")
+# 
+# ggsave(file = "Plots/geom_bar_line_point_Comparison_Returned_Variety.png", 
+#        plot = last_plot(), 
+#        width = 7.5, 
+#        height = 7.5,
+#        units = "in")
+# 
+# 
+# # Things to consider when testing the 1st hipothesis
+# # https://www.datacamp.com/community/tutorials/k-means-clustering-r
+# # https://www.datanovia.com/en/blog/types-of-clustering-methods-overview-and-quick-start-r-code/
 
