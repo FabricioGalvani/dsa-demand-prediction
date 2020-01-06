@@ -111,17 +111,17 @@ I should forecast the demand of a product for a given week, at a particular stor
 ### 4. ggpairs - Ruta SAK x Producto ID
 <img src="Plots/ggpairs_Ruta_SAK_Producto_ID.png" />
 
-### 5. Units sold (line) and Unique routes (bars) on each sales channel
+### 5.
 <img src="Plots/geom_bar_line_point_Sell_Comparison.png" />
 
-### 6. Units sold (bar) and Whight (line) by each sales channel
+### 6.
 <img src="Plots/geom_bar_line_point_Comparison_Units_Weight.png" />
 
-### 7. Units sold (bar) and Whight (line) by each sales channel
+### 7.
 <img src="Plots/geom_bar_line_point_Comparison_Units_Weight.png" />
 
-### 8. Comparison between Returned units (bar) and Variety of products (line + dots)
+### 8.
 <img src="Plots/geom_bar_line_point_Comparison_Returned_Variety.png" />
 
-### 9. Top 10 products sold
+### 9. 
 <img src="Plots/geom_bar_Top_10_products_sold.png" />
