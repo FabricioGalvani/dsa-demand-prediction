@@ -181,7 +181,7 @@ if(want_to_explore_models_results) {
   
 }
 
-#Saving the model to later use
+#Saving the model to use later
 saveRDS(object = model_xgbLinear,
         file = "./models/model_xgbLinear.RDS")
 
